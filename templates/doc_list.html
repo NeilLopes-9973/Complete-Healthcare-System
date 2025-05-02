@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Directory</title>
+    
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <!-- ===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.rtl.min.css">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f8fe;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #3944BC;
+            margin: 30px 0;
+            padding-top: 80px; /* Added for navbar spacing */
+        }
+
+        .doctor-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 30px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .doctor-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+            min-height: 220px;
+            padding: 24px 20px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: none;
+        }
+
+        .doctor-card h2 {
+            margin-top: 0;
+            font-size: 20px;
+            font-weight: bold;
+            color: #3944BC;
+        }
+
+        .doctor-card p {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .doctor-card .btn {
+            background-color: #3944BC;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .doctor-card .btn:hover {
+            background-color: #2832C2;
+        }
+
+        .no-doctors-message {
+            text-align: center;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            margin: 30px auto;
+            max-width: 600px;
+        }
+
+        @media (max-width: 992px) {
+            .doctor-container {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .doctor-container {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 576px) {
+            .doctor-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+{% include 'unified_header.html' %}
+
+<h1>Doctor Directory</h1>
+
+<div class="doctor-container">
+    {% if data|length > 0 %}
+        {% for doctor in data %}
+            <div class="doctor-card">
+                <h2>Dr. {{ doctor.name }}</h2>
+                <p><strong>Specialty:</strong> {{ doctor.specialty }}</p>
+                <p><strong>Location:</strong> {{ doctor.location }}</p>
+                {% if doctor.experience %}
+                <p><strong>Experience:</strong> {{ doctor.experience }} years</p>
+                {% endif %}
+                {% if doctor.qualifications %}
+                <p><strong>Qualifications:</strong> {{ doctor.qualifications }}</p>
+                {% endif %}
+                <a href="{{ url_for('doc_appointment') }}" class="btn btn-primary w-100">Schedule Appointment</a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-doctors-message">
+            <h3>No doctors available</h3>
+            <p>There are currently no doctors in our database. Please check back later.</p>
+        </div>
+    {% endif %}
+</div>
+
+{% include 'footer.html' %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

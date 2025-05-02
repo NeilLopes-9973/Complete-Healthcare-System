@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>NGO Login | Healthcare System</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style1.css') }}">
+	<link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.rtl.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		/* Fix for input overlapping */
+		.input-div .div {
+			position: relative;
+		}
+		
+		.input-div .div h5 {
+			position: absolute;
+			left: 10px;
+			top: 50%;
+			transform: translateY(-50%);
+			color: #999;
+			font-size: 18px;
+			transition: .3s;
+			pointer-events: none;
+		}
+		
+		.input-div .input {
+			position: relative;
+			width: 100%;
+			height: 100%;
+			padding: 0.5rem 10px 0.5rem 45px; /* Added left padding for icon */
+			font-size: 1rem;
+			color: #555;
+			outline: none;
+			border: none;
+			background: none;
+		}
+		
+		/* When input is focused or has content */
+		.input-div.focus .div h5,
+		.input-div .div input:not(:placeholder-shown) ~ h5 {
+			top: -5px;
+			font-size: 15px;
+		}
+		
+		/* Fix for icon position */
+		.input-div .i {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-right: 0;
+		}
+		
+		.input-div .i i {
+			color: #4070F4;
+		}
+		
+		/* Better styling for focus */
+		.input-div.focus:before, 
+		.input-div.focus:after {
+			width: 50%;
+		}
+	</style>
+</head>
+<body>
+{% include 'unified_header.html' %}
+
+	<div class="container">
+		<div class="img">
+			<img src="{{url_for('static',filename='images/bg.svg')}}">
+		</div>
+		<div class="login-content" id="cards">
+			<form action="/ngo_login" method="POST" enctype="multipart/form-data">
+				<img src="https://www.bing.com/images/blob?bcid=SydH7.S7GhQFqxcxoNWLuD9SqbotqVTdPxw" alt="">
+				<h2 class="title">Welcome to Login </h2>
+           		<div class="input-div one">
+           		   <div class="i">
+           		   		<i class="fas fa-user"></i>
+           		   </div>
+           		   <div class="div">
+           		   		<h5>NGO Name</h5>
+           		   		<input type="text" class="input" name="ngo_name" placeholder=" ">
+           		   </div>
+           		</div>
+           		<div class="input-div pass">
+           		   <div class="i">
+           		    	<i class="fas fa-lock"></i>
+           		   </div>
+           		   <div class="div">
+           		    	<h5>Password</h5>
+           		    	<input type="password" class="input" name="pass1" placeholder=" ">
+            	   </div>
+            	</div>
+            	<a href="#">Forgot Password?</a>
+            	<input type="submit" class="btn" value="Login">
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script1.js')}}"></script>
+    <script>
+    // Additional script to fix form labels
+    document.addEventListener('DOMContentLoaded', function() {
+        const inputs = document.querySelectorAll('.input');
+        
+        inputs.forEach(input => {
+            // Check if input already has value
+            if (input.value.trim() !== '') {
+                input.parentElement.parentElement.classList.add('focus');
+            }
+            
+            input.addEventListener('focus', function() {
+                this.parentElement.parentElement.classList.add('focus');
+            });
+            
+            input.addEventListener('blur', function() {
+                if (this.value.trim() === '') {
+                    this.parentElement.parentElement.classList.remove('focus');
+                }
+            });
+        });
+    });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

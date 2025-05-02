@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+
+    <!-- ===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-7mQhpDl5nRA5nY9lr8F1st2NbIly/8WqhjTp+0oFxEA/QUuvlbF6M1KXezGBh3Nb" crossorigin="anonymous">
+    
+    <title>Email Settings | Healthcare System</title>
+    <style>
+        .settings-section {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+        
+        .settings-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .settings-section h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(64, 112, 244, 0.2);
+        }
+        
+        .btn-save {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        .btn-save:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .note {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        .note p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .note strong {
+            color: #333;
+        }
+        
+        .form-check {
+            margin-top: 15px;
+        }
+        
+        /* Dark mode styles */
+        body.dark .settings-section {
+            background-color: var(--dark-nav);
+        }
+        
+        body.dark .form-control {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: var(--dark-border);
+            color: var(--dark-text);
+        }
+        
+        body.dark .note {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        body.dark label, body.dark .note strong {
+            color: var(--dark-text);
+        }
+        
+        body.dark .note p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <!-- Include header -->
+    {% include 'header.html' %}
+    
+    <div class="content-wrapper">
+        <div class="settings-section">
+            <h2>Email Configuration Settings</h2>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form action="/save_email_settings" method="POST">
+                <div class="form-group">
+                    <label for="mail_server">SMTP Server</label>
+                    <input type="text" id="mail_server" name="mail_server" class="form-control" value="{{ settings.mail_server }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mail_port">SMTP Port</label>
+                    <input type="number" id="mail_port" name="mail_port" class="form-control" value="{{ settings.mail_port }}" required>
+                </div>
+                
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="mail_use_tls" name="mail_use_tls" {% if settings.mail_use_tls %}checked{% endif %}>
+                    <label class="form-check-label" for="mail_use_tls">
+                        Use TLS
+                    </label>
+                </div>
+                
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="mail_use_ssl" name="mail_use_ssl" {% if settings.mail_use_ssl %}checked{% endif %}>
+                    <label class="form-check-label" for="mail_use_ssl">
+                        Use SSL
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mail_username">Email Username</label>
+                    <input type="email" id="mail_username" name="mail_username" class="form-control" value="{{ settings.mail_username }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mail_password">Email Password</label>
+                    <input type="password" id="mail_password" name="mail_password" class="form-control" value="{{ settings.mail_password }}">
+                    <small class="form-text text-muted">Leave blank to keep current password.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mail_default_sender">Default Sender</label>
+                    <input type="email" id="mail_default_sender" name="mail_default_sender" class="form-control" value="{{ settings.mail_default_sender }}" required>
+                </div>
+                
+                <button type="submit" class="btn-save">Save Settings</button>
+            </form>
+            
+            <div class="note">
+                <p><strong>Note:</strong> If using Gmail, you'll need to use an "App Password" instead of your regular password. 
+                <a href="https://support.google.com/accounts/answer/185833" target="_blank">Learn more about App Passwords</a>.</p>
+            </div>
+            
+            <div class="mt-4">
+                <form action="/test_email" method="POST">
+                    <div class="form-group">
+                        <label for="test_email">Send Test Email</label>
+                        <input type="email" id="test_email" name="test_email" class="form-control" placeholder="Enter email address for testing">
+                    </div>
+                    <button type="submit" class="btn-save">Send Test Email</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Include footer -->
+    {% include 'footer.html' %}
+    
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 

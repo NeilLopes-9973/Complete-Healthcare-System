@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disease Prediction | Healthcare System</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-7mQhpDl5nRA5nY9lr8F1st2NbIly/8WqhjTp+0oFxEA/QUuvlbF6M1KXezGBh3Nb" crossorigin="anonymous">
+    
+    <style>
+        .symptoms-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .symptom-item {
+            width: 250px;
+            margin: 5px;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            position: relative;
+        }
+        
+        .symptom-item:hover {
+            background-color: rgba(64, 112, 244, 0.1);
+            border-color: rgba(64, 112, 244, 0.3);
+        }
+        
+        .symptom-item.selected {
+            background-color: rgba(64, 112, 244, 0.2);
+            border-color: var(--primary-color);
+        }
+        
+        .symptom-item input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .symptom-title {
+            display: block;
+            font-size: 0.95rem;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .checkbox-icon {
+            position: absolute;
+            left: 0;
+            top: 4px;
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #adb5bd;
+            border-radius: 3px;
+            background-color: white;
+        }
+        
+        .symptom-item.selected .checkbox-icon {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .symptom-item.selected .checkbox-icon:after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        
+        .result-container {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: var(--radius-md);
+            background-color: var(--bg-light);
+            box-shadow: 0 4px 6px var(--shadow-color);
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .prediction {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: var(--radius-md);
+            background-color: rgba(64, 112, 244, 0.05);
+        }
+        
+        .top-prediction {
+            background-color: rgba(64, 112, 244, 0.15);
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .disease-name {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1em;
+            margin-right: 10px;
+        }
+        
+        .probability {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+        
+        .selected-symptoms {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(64, 112, 244, 0.05);
+            border-radius: var(--radius-md);
+        }
+        
+        .selected-symptom-tag {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 10px;
+            margin: 3px;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+        
+        .disease-prediction-title {
+            position: relative;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+        }
+        
+        .disease-prediction-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+        
+        .search-input {
+            padding-left: 40px;
+        }
+        
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color var(--transition-fast);
+            width: 100%;
+        }
+        
+        .submit-btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .error-container {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid #e74c3c;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: var(--radius-md);
+        }
+        
+        .error-title {
+            color: #e74c3c;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .predict-card {
+            background-color: var(--bg-light);
+            border-radius: var(--radius-md);
+            box-shadow: 0 4px 6px var(--shadow-color);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        /* Dark mode adjustments */
+        body.dark .predict-card,
+        body.dark .result-container {
+            background-color: var(--dark-nav);
+        }
+        
+        body.dark .symptom-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Include header -->
+    {% include 'unified_header.html' %}
+    
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-header text-center">
+                        <h1><i class="bx bx-plus-medical"></i> Disease Prediction System</h1>
+                        <p>Select your symptoms to get a disease prediction based on our AI model</p>
+                    </div>
+                </div>
+            </div>
+            
+            {% if error %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="error-container">
+                            <h3 class="error-title">Error</h3>
+                            <p>{{ error }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            
+            {% if result %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="result-container">
+                            <h2 class="section-title">Prediction Results</h2>
+                            
+                            {% if predictions %}
+                                <div class="predictions">
+                                    {% for prediction in predictions %}
+                                        <div class="prediction {% if loop.first %}top-prediction{% endif %}">
+                                            {% if loop.first %}
+                                                <h4><i class="bx bx-check-circle"></i> Top Prediction</h4>
+                                            {% else %}
+                                                <h4><i class="bx bx-info-circle"></i> Alternative Prediction {{ loop.index }}</h4>
+                                            {% endif %}
+                                            <div>
+                                                <span class="disease-name">{{ prediction.disease }}</span>
+                                                <span class="probability">Probability: {{ prediction.probability }}</span>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="prediction top-prediction">
+                                    <h4><i class="bx bx-check-circle"></i> Predicted Disease</h4>
+                                    <div>
+                                        <span class="disease-name">{{ result }}</span>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            
+                            {% if confidence_explanation %}
+                                <div class="confidence-info mt-3 p-3 rounded {% if confidence_level == 'high' %}bg-success text-white{% elif confidence_level == 'medium' %}bg-info text-white{% else %}bg-light{% endif %}">
+                                    <h5><i class="bx bx-shield-quarter"></i> Prediction Confidence</h5>
+                                    <p>{{ confidence_explanation }}</p>
+                                </div>
+                            {% endif %}
+                            
+                            {% if selected_symptoms %}
+                                <div class="selected-symptoms">
+                                    <h4><i class="bx bx-list-ul"></i> Based on these symptoms:</h4>
+                                    {% for symptom in selected_symptoms %}
+                                        <span class="selected-symptom-tag">{{ symptom }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            
+                            <div class="mt-4">
+                                <p class="text-muted"><i class="bx bx-info-circle"></i> Note: This prediction is based on machine learning algorithms and should not replace professional medical advice. Please consult with a healthcare professional for accurate diagnosis.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <div class="predict-card">
+                        <div class="mb-4">
+                            <h2 class="disease-prediction-title">Select Your Symptoms</h2>
+                            <p>Choose all symptoms that apply to you. The more symptoms you select, the more accurate the prediction will be.</p>
+                        </div>
+                        
+                        <form action="/predict" method="POST">
+                            <div class="row mb-4">
+                                <div class="col-md-12">
+                                    <div class="search-box mb-3">
+                                        <i class="bx bx-search"></i>
+                                        <input type="text" id="search-symptoms" class="form-control search-input" placeholder="Search symptoms...">
+                                    </div>
+                                    
+                                    <div class="symptoms-container">
+                                        {% for symptom in symp %}
+                                            <div class="symptom-item" id="item_{{ loop.index }}" onclick="selectSymptom('{{ loop.index }}')">
+                                                <input type="checkbox" name="symptom" value="{{ symptom }}" id="symptom_{{ loop.index }}">
+                                                <span class="symptom-title">
+                                                    <span class="checkbox-icon"></span>
+                                                    {{ symptom.replace('_', ' ').title() }}
+                                                </span>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" class="submit-btn">
+                                        <i class="bx bx-analyse"></i> Predict Disease
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Include footer -->
+    {% include 'footer.html' %}
+    
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Search symptoms functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-symptoms');
+            const symptomItems = document.querySelectorAll('.symptom-item');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.trim().toLowerCase();
+                
+                symptomItems.forEach(item => {
+                    const title = item.querySelector('.symptom-title').textContent.toLowerCase();
+                    
+                    if (searchTerm === '' || title.includes(searchTerm)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Initialize any preselected checkboxes
+            symptomItems.forEach((item, index) => {
+                const checkbox = item.querySelector('input[type="checkbox"]');
+                if (checkbox.checked) {
+                    item.classList.add('selected');
+                }
+            });
+        });
+        
+        // Function to handle symptom selection
+        function selectSymptom(index) {
+            const checkbox = document.getElementById(`symptom_${index}`);
+            const item = document.getElementById(`item_${index}`);
+            
+            // Toggle checkbox state
+            checkbox.checked = !checkbox.checked;
+            
+            // Toggle selected class on the item
+            if (checkbox.checked) {
+                item.classList.add('selected');
+            } else {
+                item.classList.remove('selected');
+            }
+        }
+    </script>
+</body>
+</html>

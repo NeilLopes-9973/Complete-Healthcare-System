@@ -1,0 +1,47 @@
+# Python generated files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# Flask
+flask_session/
+instance/
+
+# Database
+*.sqlite
+*.db
+
+# Logs
+*.log
+
+# Environment variables
+.env
+.env.*
+
+# IDE specific files
+.vscode/
+.idea/
+
+# Node modules (if any)
+node_modules/
+
+# Package files
+*.egg
+*.egg-info/
+dist/
+build/
+*.egg-info/
+
+# Windows specific
+Thumbs.db
+desktop.ini
+
+# macOS specific
+.DS_Store

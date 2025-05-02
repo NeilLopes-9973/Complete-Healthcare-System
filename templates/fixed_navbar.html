@@ -1,0 +1,272 @@
+<!-- Navbar that exactly matches the index.html page -->
+<nav>
+    <div class="nav-bar">
+        <i class='bx bx-menu sidebarOpen'></i>
+        <span class="logo navLogo"><a href="/">Healthcare System</a></span>
+
+        <div class="menu">
+            <div class="logo-toggle">
+                <span class="logo"><a href="/">Healthcare System</a></span>
+                <i class='bx bx-x siderbarClose'></i>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+                
+                {% if session.get('user_id') %}
+                    <!-- Show these links when logged in -->
+                    <li><a href="/blood">Blood Bank</a></li>
+                    <li><a href="/predict">Disease Prediction</a></li>
+                    <li><a href="/doc_appointment">Doctor Appointment</a></li>
+                    {% if session.get('user_type') == 'ngo' %}
+                        <li><a href="/ngo_server">NGO Dashboard</a></li>
+                    {% endif %}
+                    <li><a href="/logout">Logout</a></li>
+                {% else %}
+                    <!-- Show these links when not logged in -->
+                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></li>
+                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#signupModal">Sign up</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="darkLight-searchBox">
+            {% if session.get('user_id') %}
+            <div class="user-info">
+                <i class='bx bx-user-circle'></i>
+                <span class="user-name">
+                    {% if session.get('p_name') %}
+                        {{ session.get('p_name') }}
+                    {% elif session.get('ngo_name') %}
+                        {{ session.get('ngo_name') }}
+                    {% endif %}
+                </span>
+                <span class="badge-user-type">{{ session.get('user_type', 'user') }}</span>
+            </div>
+            {% endif %}
+            
+            <div class="dark-light">
+                <i class='bx bx-moon moon'></i>
+                <i class='bx bx-sun sun'></i>
+            </div>
+
+            <div class="searchBox">
+               <div class="searchToggle">
+                <i class='bx bx-x cancel'></i>
+                <i class='bx bx-search search'></i>
+               </div>
+
+                <div class="search-field">
+                    <input type="text" placeholder="Search...">
+                    <i class='bx bx-search'></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="loginModalLabel">Login</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4 mb-4 pop">
+                        <div class="card">
+                            <img src="https://www.bing.com/th?id=OIP.e1KNYwnuhNwNj7_-98yTRwHaF7&w=279&h=223&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2" class="card-img-top" alt="..." height="80px">
+                            <div class="card-body">
+                                <p class="card-text">PATIENT's Login</p>
+                                <a href="/patient_login" class="btn btn-primary w-100">Login</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mb-4 pop">
+                        <div class="card">
+                            <img src="https://www.bing.com/th?id=OIP._GUS9MOZ-uvqPR-RGgxBWgHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2" class="card-img-top" alt="..." height="80px">
+                            <div class="card-body">
+                                <p class="card-text">NGO's Login</p>
+                                <a href="/ngo_login" class="btn btn-primary w-100">Login</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mb-4 pop">
+                        <div class="card">
+                            <img src="https://www.bing.com/th?id=OIP.bnXbvG-x0bNs9hcfo9M04wHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2" class="card-img-top" alt="..." height="80px">
+                            <div class="card-body">
+                                <p class="card-text">Doctor's Login</p>
+                                <a href="/doc_login" class="btn btn-primary w-100">Login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Signup Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="signupModalLabel">Sign Up</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4 mb-4 pop">
+                        <div class="card">
+                            <img src="https://www.bing.com/th?id=OIP.e1KNYwnuhNwNj7_-98yTRwHaF7&w=279&h=223&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2" class="card-img-top" alt="..." height="80px">
+                            <div class="card-body">
+                                <p class="card-text">PATIENT's Sign Up</p>
+                                <a href="/patient_sign_up" class="btn btn-primary w-100">Sign Up</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mb-4 pop">
+                        <div class="card">
+                            <img src="https://www.bing.com/th?id=OIP._GUS9MOZ-uvqPR-RGgxBWgHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2" class="card-img-top" alt="..." height="80px">
+                            <div class="card-body">
+                                <p class="card-text">NGO's Sign Up</p>
+                                <a href="/ngo_sign_up" class="btn btn-primary w-100">Sign Up</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 mb-4 pop">
+                        <div class="card">
+                            <img src="https://www.bing.com/th?id=OIP.bnXbvG-x0bNs9hcfo9M04wHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2" class="card-img-top" alt="..." height="80px">
+                            <div class="card-body">
+                                <p class="card-text">Doctor's Sign Up</p>
+                                <a href="/doc_sign_up" class="btn btn-primary w-100">Sign Up</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Navbar JavaScript -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const body = document.querySelector("body"),
+          nav = document.querySelector("nav"),
+          modeToggle = document.querySelector(".dark-light"),
+          searchToggle = document.querySelector(".searchToggle"),
+          sidebarOpen = document.querySelector(".sidebarOpen"),
+          siderbarClose = document.querySelector(".siderbarClose");
+
+    // Check for saved mode preference
+    let getMode = localStorage.getItem("mode");
+    if(getMode && getMode === "dark-mode"){
+        body.classList.add("dark");
+    }
+
+    // Dark/light mode toggle
+    if(modeToggle) {
+        modeToggle.addEventListener("click", () => {
+            modeToggle.classList.toggle("active");
+            body.classList.toggle("dark");
+
+            // Save mode preference
+            if(!body.classList.contains("dark")){
+                localStorage.setItem("mode", "light-mode");
+            } else {
+                localStorage.setItem("mode", "dark-mode");
+            }
+        });
+    }
+
+    // Search toggle
+    if(searchToggle) {
+        searchToggle.addEventListener("click", () => {
+            searchToggle.classList.toggle("active");
+        });
+    }
+
+    // Sidebar toggle for mobile
+    if(sidebarOpen) {
+        sidebarOpen.addEventListener("click", () => {
+            nav.classList.add("active");
+        });
+    }
+
+    if(siderbarClose) {
+        siderbarClose.addEventListener("click", () => {
+            nav.classList.remove("active");
+        });
+    }
+
+    // Close sidebar when clicking outside
+    body.addEventListener("click", e => {
+        let clickedElm = e.target;
+
+        if(!clickedElm.classList.contains("sidebarOpen") && !clickedElm.classList.contains("menu")){
+            nav.classList.remove("active");
+        }
+    });
+});
+</script>
+
+<style>
+    .user-info {
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
+    }
+    
+    .user-info i {
+        font-size: 1.25rem;
+        margin-right: 5px;
+        color: var(--text-color);
+    }
+    
+    .user-name {
+        font-weight: 500;
+        color: var(--text-color);
+        margin-right: 5px;
+    }
+    
+    .badge-user-type {
+        background-color: #3944BC;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+    }
+    
+    .nav-bar {
+        z-index: 1000;
+    }
+
+    body.dark .card {
+        background-color: #242526;
+        color: #fff;
+    }
+    
+    body.dark .modal-content {
+        background-color: #242526;
+        color: #fff;
+    }
+    
+    body.dark .btn-close {
+        filter: invert(1);
+    }
+    
+    .modal-dialog {
+        max-width: 700px;
+    }
+</style> 

@@ -1,0 +1,132 @@
+<!-- Header from home page -->
+<nav>
+    <div class="nav-bar">
+        <i class='bx bx-menu sidebarOpen' ></i>
+        <span class="logo navLogo"><a href="#">Prad</a></span>
+
+        <div class="menu">
+            <div class="logo-toggle">
+                <span class="logo"><a href="#">Prad</a></span>
+                <i class='bx bx-x siderbarClose'></i>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">contact</a></li>
+                <li><a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login</a></li>
+                <li><a href="#"  data-bs-toggle="modal" data-bs-target="#signupModal">Sign up</a></li>
+            </ul>
+        </div>
+
+        <div class="darkLight-searchBox">
+            <div class="dark-light">
+                <i class='bx bx-moon moon'></i>
+                <i class='bx bx-sun sun'></i>
+            </div>
+
+            <div class="searchBox">
+               <div class="searchToggle">
+                <i class='bx bx-x cancel'></i>
+                <i class='bx bx-search search'></i>
+               </div>
+
+                <div class="search-field">
+                    <input type="text" placeholder="Search...">
+                    <i class='bx bx-search'></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Modal -->
+<div class="modal fade " id="signupModal" tabindex="-1" aria-labelledby="signupModal" aria-hidden="true" >
+  <div class="modal-dialog">
+    <div class="modal-content"  style="width: auto;">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="signupModal">sign up</h1>
+      </div>
+      <div class="modal-body">
+      <div class="row">
+   <div class="col-sm-3 mb-5 pop">
+    <div class="card " style="width: 130px;">
+      <img src="https://www.bing.com/th?id=OIP.e1KNYwnuhNwNj7_-98yTRwHaF7&w=279&h=223&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2" class="card-img-top" alt="..."height="80px">
+      <div class="card-body">
+        <p class="card-text">PATIENT's Registration</p>
+       <button class="btn  btn-primary "><a class="btn1" href="patient_sign_up">Register</a></button>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-3 mb-5 pop">
+      <div class="card " style="width: 130px;">
+        <img src="https://www.bing.com/th?id=OIP.vZ6UcfHDhccQA5mvq0fd9gHaHM&w=253&h=246&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2" class="card-img-top" alt="..." height="80px">
+        <div class="card-body">
+          <p class="card-text">Doctor's Registration</p>
+          <button class="btn  btn-primary "><a class="btn1" href="doc_sign_up">Register</a></button>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 mb-5 pop">
+      <div class="card " style="width: 130px;">
+        <img src="https://www.bing.com/th?id=OIP._GUS9MOZ-uvqPR-RGgxBWgHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2" class="card-img-top" alt="..." height="80px">
+        <div class="card-body">
+          <p class="card-text">NGO's Registration</p>
+          <button class="btn  btn-primary "><a class="btn1" href="ngo_sign_up">Register</a></button>
+        </div>
+      </div>
+    </div>
+  </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="loginModal">Login</h1>
+          </div>
+          <div class="modal-body">
+               <div class="row">
+   <div class="col-sm-3 mb-5 pop">
+    <div class="card " style="width: 130px;">
+      <img src="https://www.bing.com/th?id=OIP.e1KNYwnuhNwNj7_-98yTRwHaF7&w=279&h=223&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2" class="card-img-top" alt="..." height="80px">
+      <div class="card-body">
+        <p class="card-text">PATIENT's Login</p>
+       <button class="btn  btn-primary "><a class="btn1" href="/patient_login">Login</a></button>
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-3 mb-5 pop">
+      <div class="card " style="width: 130px;">
+        <img src="https://www.bing.com/th?id=OIP._GUS9MOZ-uvqPR-RGgxBWgHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2" class="card-img-top" alt="..." height="80px">
+        <div class="card-body">
+          <p class="card-text">NGO's <br>Login</p>
+          <button class="btn  btn-primary "><a class="btn1" href="/ngo_login">Login</a></button>
+        </div>
+      </div>
+    </div>
+  </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<style>
+a{
+text-decoration: none;
+color:white;
+}
+a:hover{
+color:black;
+}
+</style>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- ===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.rtl.min.css">
+    <TITLE>NGO Directory</TITLE>
+   <style>
+		body {
+			background-color: #f5f8fe;
+			font-family: Arial, sans-serif;
+		}
+
+		h1 {
+			text-align: center;
+			margin-top: 50px;
+			color: #3944BC;
+            padding-top: 80px;
+		}
+
+		.container {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			margin: 30px auto;
+			max-width: 1200px;
+			padding: 0 20px;
+		}
+
+		.card {
+			background-color: #333;
+			border-radius: 10px;
+			box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+			margin-bottom: 30px;
+			overflow: hidden;
+			position: relative;
+			width: 30%;
+			min-height: 250px;
+            padding: 20px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+		}
+
+		.card h2 {
+			margin-top: 0;
+			font-size: 20px;
+			font-weight: bold;
+            color: #fff;
+		}
+
+		.card p {
+			margin-bottom: 10px;
+			font-size: 14px;
+			line-height: 1.5;
+		}
+
+		.card .btn {
+			background-color: #3944BC;
+			color: #fff;
+			border: none;
+			border-radius: 4px;
+			padding: 12px 20px;
+			cursor: pointer;
+			transition: background 0.3s;
+			width: 100%;
+            margin-top: 15px;
+            text-decoration: none;
+		}
+
+		.card .btn:hover {
+			background-color: #2832C2;
+		}
+
+        @media (max-width: 992px) {
+            .card {
+                width: 45%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                width: 100%;
+            }
+        }
+	</style>
+</head>
+<body>
+{% include 'unified_header.html' %}
+
+<h1>NGO Directory</h1>
+
+<div class="container">
+	{% for row in data %}
+		<div class="card">
+			<div>
+				<h2>NGO-Name: {{row[0]}}</h2>
+				<p>NGO-Type: {{row[2]}}</p>
+				<p>Contact: {{row[3]}}</p>
+			</div>
+			<a href="tel:{{row[3]}}" class="btn">Contact</a>
+		</div>
+	{% endfor %}
+</div>
+
+{% include 'footer.html' %}
+</body>
+</html>
