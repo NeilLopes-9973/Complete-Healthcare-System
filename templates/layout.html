@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Healthcare System{% endblock %}</title>
+    
+    <!-- Common CSS Files - Consistent across all pages -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/common.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.rtl.min.css">
+    
+    <!-- Critical navbar fixes -->
+    <style>
+        /* Override any potential navbar duplications */
+        body {
+            padding-top: 70px; /* Make room for fixed navbar */
+            min-height: 100vh;
+        }
+        .container {
+            position: relative;
+            z-index: 1; /* Lower than navbar */
+            margin-top: 20px;
+        }
+        nav {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 70px !important;
+            z-index: 1000 !important;
+        }
+        .nav-bar {
+            position: relative !important;
+            z-index: 1001 !important;
+            background-color: transparent !important;
+        }
+    </style>
+    
+    <!-- Page-specific CSS -->
+    {% block styles %}{% endblock %}
+</head>
+<body>
+    <!-- Fixed Navbar -->
+    {% include 'fixed_navbar.html' %}
+    
+    <!-- Page Content -->
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+    
+    <!-- Footer -->
+    {% include 'footer.html' %}
+    
+    <!-- Common Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Page-specific Scripts -->
+    {% block scripts %}{% endblock %}
+</body>
+</html> 
